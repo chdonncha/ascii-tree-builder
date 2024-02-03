@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 // import TreeBuilder from './components/TreeBuilder';
-// import Instructions from './components/Instructions';
+import Instructions from './components/Instructions';
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         <header className="App-header">
           <h3>ASCII Tree Builder</h3>
         </header>
-        {/*<Instructions />*/}
+        <Instructions />
         <div className="tree-container">
           {/*<TreeBuilder />*/}
         </div>
