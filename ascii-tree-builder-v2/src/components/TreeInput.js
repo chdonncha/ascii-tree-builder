@@ -1,36 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import { useTree } from '../TreeContext'; // Adjust the import path according to your file structure
+import React, { useState } from 'react';
+import { useTree } from '../TreeContext'; // Adjust the import path as necessary
 
 const TreeInput = () => {
-    const { nodes, addNode } = useTree();
+    const { nodes, addNode, selectNode, selectedNodeId } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
-    const [treeDisplay, setTreeDisplay] = useState('');
-
-    useEffect(() => {
-        // Function to convert the tree structure to a string representation
-        const displayTree = (nodes, parentId = null, depth = 0) => {
-            return nodes
-                .filter(node => node.parentId === parentId)
-                .map(node => {
-                    const prefix = ' '.repeat(depth * 2); // Indentation for children
-                    const childrenDisplay = displayTree(nodes, node.id, depth + 1);
-                    return `${prefix}${node.name}\n${childrenDisplay}`;
-                })
-                .join('');
-        };
-
-        setTreeDisplay(displayTree(nodes));
-    }, [nodes]); // Update the display whenever the nodes change
 
     const handleAddNode = () => {
-        if (!newNodeName.trim()) return; // Prevent adding empty named nodes
-        addNode('root', newNodeName); // Assuming 'root' is the id of the root node
-        setNewNodeName(''); // Reset input field
+        if (!newNodeName.trim()) return;
+        addNode('root', newNodeName); // Example: Adding to 'root'
+        setNewNodeName('');
     };
+
+    const renderNode = (node, depth = 0) => {
+        const isSelected = node.id === selectedNodeId;
+        return (
+            <div
+                key={node.id}
+                style={{
+                    marginLeft: `${depth * 20}px`,
+                    background: isSelected ? 'grey' : 'transparent',
+                    cursor: 'pointer'
+                }}
+                onClick={(e) => {
+                    e.stopPropagation(); // Prevent event bubbling
+                    selectNode(node.id);
+                }}
+            >
+                {node.name}
+                {nodes.filter(child => child.parentId === node.id).map(child => renderNode(child, depth + 1))}
+            </div>
+        );
+    };
+
 
     return (
         <div>
-            <textarea readOnly value={treeDisplay} style={{ width: '100%', minHeight: '200px' }} />
+            <div style={{ overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px' }}>
+                {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
+            </div>
             <input
                 type="text"
                 value={newNodeName}
