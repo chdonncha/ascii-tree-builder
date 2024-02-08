@@ -24,6 +24,10 @@ When a node is deleted, all its child nodes are also deleted unless they are exp
 To add a new node, select the intended parent node and use the add function. The new node will automatically become a child of the selected node.
 Renaming is straightforward: select the node and apply the rename function.
 
+## Interface and Interaction:
+1. **Input Text Box:** This box allows users to input the structure of the tree, showing all nodes. Users can manipulate the tree structure directly within this box according to the specified rules.
+2. **Output Text Box:** This box displays the output of the ASCII conversion, providing a visual representation of the tree structure as defined in the input text box.
+
 ## Integrity and Constraints:
 1. **No Orphan Nodes:** Every node must either be a root or have a parent.
 2. **Maintaining Hierarchical Order:** Nodes must maintain a logical hierarchical order, where child nodes cannot precede parent nodes in the structure.
