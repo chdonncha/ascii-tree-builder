@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTree } from '../TreeContext'; // Adjust the import path as necessary
 
 const TreeInput = () => {
-    const { nodes, addNode, selectNode, selectedNodeId } = useTree();
+    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
     const handleAddNode = () => {
@@ -35,7 +35,7 @@ const TreeInput = () => {
 
     return (
         <div>
-            <div style={{ overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px' }}>
+            <div style={{overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px'}}>
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
             <input
@@ -45,6 +45,8 @@ const TreeInput = () => {
                 placeholder="Enter new node name"
             />
             <button onClick={handleAddNode}>Add Node</button>
+            <button onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</button>
+            <button onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</button>
         </div>
     );
 };
