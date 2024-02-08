@@ -13,14 +13,14 @@
 
 ## Specific Manipulation Rules:
 1. **Moving Nodes:**
-Use the designated button or hotkey to move the selected node up or down within its current level or to another level.
-A node cannot be moved in a way that it becomes its own parent or child.
-2. **Indenting and Outdenting Nodes:**
+Use the designated button or hotkey to move the selected node up or down within its current level or to another level. When moving a node up or down,
+it will become a child of the node it is moved into. A node cannot be moved in a way that it becomes its own parent or child.
+3. **Indenting and Outdenting Nodes:**
 Indenting a node makes it a child of the node immediately above it.
 Outdenting a node moves it one level up in the hierarchy, making it a sibling of its former parent, provided it is not the root.
-3. **Deleting Nodes:**
+4. **Deleting Nodes:**
 When a node is deleted, all its child nodes are also deleted unless they are explicitly moved to another parent prior to deletion.
-4. **Adding and Renaming Nodes:**
+5. **Adding and Renaming Nodes:**
 To add a new node, select the intended parent node and use the add function. The new node will automatically become a child of the selected node.
 Renaming is straightforward: select the node and apply the rename function.
 
