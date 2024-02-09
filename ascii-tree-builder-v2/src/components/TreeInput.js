@@ -11,8 +11,25 @@ const TreeInput = () => {
         setNewNodeName('');
     };
 
+    const isLastChild = (nodeId) => {
+        if (!nodeId) return false;
+        const parentNodeId = nodes.find(node => node.id === nodeId)?.parentId;
+        if (!parentNodeId) return false;
+        const siblings = nodes.filter(node => node.parentId === parentNodeId);
+        return siblings[siblings.length - 1].id === nodeId;
+    };
+
+    const renderPrefix = (depth, isLast) => {
+        let prefix = '';
+        for (let i = 0; i < depth; i++) {
+            prefix += i === depth - 1 ? (isLast ? '└── ' : '├── ') : '│   ';
+        }
+        return prefix;
+    };
+
     const renderNode = (node, depth = 0) => {
         const isSelected = node.id === selectedNodeId;
+        const children = nodes.filter(child => child.parentId === node.id);
         return (
             <div
                 key={node.id}
@@ -26,12 +43,11 @@ const TreeInput = () => {
                     selectNode(node.id);
                 }}
             >
-                {node.name}
-                {nodes.filter(child => child.parentId === node.id).map(child => renderNode(child, depth + 1))}
+                {depth > 0 ? renderPrefix(depth, isLastChild(node.id)) : ''}{node.name}
+                {children.map((child, index) => renderNode(child, depth + 1))}
             </div>
         );
     };
-
 
     return (
         <div>
