@@ -5,13 +5,18 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 
 const TreeInput = () => {
-    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode } = useTree();
+    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
     const handleAddNode = () => {
         if (!newNodeName.trim()) return;
-        addNode('root', newNodeName); // Example: Adding to 'root'
+        addNode('root', newNodeName);
         setNewNodeName('');
+    };
+
+    const handleUpdateNodeType = (type) => {
+        if (!selectedNodeId) return;
+        updateNodeType(selectedNodeId, type);
     };
 
     const isLastChild = (nodeId) => {
@@ -63,7 +68,6 @@ const TreeInput = () => {
         );
     };
 
-
     return (
         <div>
             <div style={{overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px'}}>
@@ -78,6 +82,14 @@ const TreeInput = () => {
             <button onClick={handleAddNode}>Add Node</button>
             <button onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</button>
             <button onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</button>
+            <button onClick={() => handleUpdateNodeType('folder')}>
+                <FolderIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                Set as Folder
+            </button>
+            <button onClick={() => handleUpdateNodeType('file')}>
+                <InsertDriveFileIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                Set as File
+            </button>
         </div>
     );
 };

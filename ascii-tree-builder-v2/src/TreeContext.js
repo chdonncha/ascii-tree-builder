@@ -6,7 +6,7 @@ const TreeContext = createContext();
 export const useTree = () => useContext(TreeContext);
 
 export const TreeProvider = ({ children }) => {
-    const [nodes, setNodes] = useState([{ id: 'root', parentId: null, name: 'Root' }]);
+    const [nodes, setNodes] = useState([{ id: 'root', parentId: null, name: 'Root', type: null }]);
     const [selectedNodeId, setSelectedNodeId] = useState(null);
 
     const addNode = (parentId, name) => {
@@ -14,12 +14,19 @@ export const TreeProvider = ({ children }) => {
             id: `${new Date().getTime()}`, // Generate Unique ID
             parentId,
             name,
+            type: null,
         };
         setNodes((prevNodes) => [...prevNodes, newNode]);
     };
 
     const selectNode = (nodeId) => {
         setSelectedNodeId(nodeId);
+    };
+
+    const updateNodeType = (nodeId, type) => {
+        setNodes((prevNodes) => prevNodes.map(node =>
+            node.id === nodeId ? { ...node, type } : node
+        ));
     };
 
     const indentNode = (nodeId) => {
@@ -61,8 +68,9 @@ export const TreeProvider = ({ children }) => {
             addNode,
             selectNode,
             selectedNodeId,
-            indentNode, // Include indentNode in the context value
-            unindentNode // Include unindentNode in the context value
+            updateNodeType, // Add this line to make the function available in the context
+            indentNode,
+            unindentNode,
         }}>
             {children}
         </TreeContext.Provider>
