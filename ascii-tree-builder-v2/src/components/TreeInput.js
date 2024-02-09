@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { useTree } from '../TreeContext'; // Adjust the import path as necessary
+import { useTree } from '../TreeContext';
+import FolderIcon from '@mui/icons-material/Folder';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+
 
 const TreeInput = () => {
     const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode } = useTree();
@@ -30,6 +33,9 @@ const TreeInput = () => {
     const renderNode = (node, depth = 0) => {
         const isSelected = node.id === selectedNodeId;
         const children = nodes.filter(child => child.parentId === node.id);
+        const isLast = isLastChild(node.id);
+        const prefix = depth > 0 ? renderPrefix(depth, isLast) : '';
+
         return (
             <div
                 key={node.id}
@@ -43,11 +49,20 @@ const TreeInput = () => {
                     selectNode(node.id);
                 }}
             >
-                {depth > 0 ? renderPrefix(depth, isLastChild(node.id)) : ''}{node.name}
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <span style={{ fontFamily: 'monospace', whiteSpace: 'pre' }}>{prefix}</span>
+                    {node.type === 'file' ? (
+                        <InsertDriveFileIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                    ) : (
+                        <FolderIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                    )}
+                    <span>{node.name}</span>
+                </div>
                 {children.map((child, index) => renderNode(child, depth + 1))}
             </div>
         );
     };
+
 
     return (
         <div>
