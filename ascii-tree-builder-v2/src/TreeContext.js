@@ -25,9 +25,15 @@ export const TreeProvider = ({ children }) => {
     const indentNode = (nodeId) => {
         setNodes((prevNodes) => {
             const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
-            if (nodeIndex > 0) { // Ensure there is a previous sibling to become the parent
-                const newParentId = prevNodes[nodeIndex - 1].id;
-                return prevNodes.map(node => node.id === nodeId ? { ...node, parentId: newParentId } : node);
+            // Ensure the node is not the first node and has a previous sibling within the same parent
+            if (nodeIndex > 0) {
+                const node = prevNodes[nodeIndex];
+                const siblings = prevNodes.filter(n => n.parentId === node.parentId);
+                const nodeSiblingIndex = siblings.findIndex(n => n.id === nodeId);
+                if (nodeSiblingIndex > 0) { // Ensure there is a previous sibling to become the parent
+                    const newParentId = siblings[nodeSiblingIndex - 1].id;
+                    return prevNodes.map(node => node.id === nodeId ? { ...node, parentId: newParentId } : node);
+                }
             }
             return prevNodes;
         });
