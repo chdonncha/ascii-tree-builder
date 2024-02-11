@@ -38,32 +38,32 @@ const TreeInput = () => {
     const renderNode = (node, depth = 0) => {
         const isSelected = node.id === selectedNodeId;
         const children = nodes.filter(child => child.parentId === node.id);
-        const isLast = isLastChild(node.id);
-        const prefix = depth > 0 ? renderPrefix(depth, isLast) : '';
 
         return (
             <div
                 key={node.id}
-                style={{
-                    marginLeft: `${depth * 20}px`,
-                    background: isSelected ? 'grey' : 'transparent',
-                    cursor: 'pointer'
-                }}
                 onClick={(e) => {
-                    e.stopPropagation(); // Prevent event bubbling
+                    e.stopPropagation();
                     selectNode(node.id);
                 }}
+                style={{
+                    display: 'flex',
+                    flexDirection: 'column', // Vertically stack children
+                    cursor: 'pointer',
+                }}
             >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <span style={{ fontFamily: 'monospace', whiteSpace: 'pre' }}>{prefix}</span>
-                    {node.type === 'file' ? (
-                        <InsertDriveFileIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
-                    ) : (
-                        <FolderIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
-                    )}
+                <div
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        background: isSelected ? 'grey' : 'transparent',
+                        paddingLeft: `${depth * 20}px`, // Indentation depth
+                    }}
+                >
                     <span>{node.name}</span>
                 </div>
-                {children.map((child, index) => renderNode(child, depth + 1))}
+
+                {children.map((child) => renderNode(child, depth + 1))}
             </div>
         );
     };
