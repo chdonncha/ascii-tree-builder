@@ -3,7 +3,6 @@ import { useTree } from '../TreeContext';
 import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
-
 const TreeInput = () => {
     const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
@@ -25,14 +24,6 @@ const TreeInput = () => {
         if (!parentNodeId) return false;
         const siblings = nodes.filter(node => node.parentId === parentNodeId);
         return siblings[siblings.length - 1].id === nodeId;
-    };
-
-    const renderPrefix = (depth, isLast) => {
-        let prefix = '';
-        for (let i = 0; i < depth; i++) {
-            prefix += i === depth - 1 ? (isLast ? '└── ' : '├── ') : '│   ';
-        }
-        return prefix;
     };
 
     const renderNode = (node, depth = 0) => {
@@ -62,14 +53,18 @@ const TreeInput = () => {
                 >
                     <span>{node.name}</span>
                 </div>
-
                 {children.map((child) => renderNode(child, depth + 1))}
             </div>
         );
     };
 
     return (
-        <div>
+        <div style={{
+            width: '50%',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            overflowY: 'auto',
+        }}>
             <div style={{overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px'}}>
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
