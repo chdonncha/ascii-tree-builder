@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTree } from '../TreeContext';
 import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import { Button } from '@mui/material';
 
 const TreeInput = () => {
     const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType } = useTree();
@@ -74,17 +75,17 @@ const TreeInput = () => {
                 onChange={(e) => setNewNodeName(e.target.value)}
                 placeholder="Enter new node name"
             />
-            <button onClick={handleAddNode}>Add Node</button>
-            <button onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</button>
-            <button onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</button>
-            <button onClick={() => handleUpdateNodeType('folder')}>
+            <Button variant="contained" className="button-style" onClick={handleAddNode}>Add Node</Button>
+            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</Button>
+            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</Button>
+            <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
                 <FolderIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
                 Set as Folder
-            </button>
-            <button onClick={() => handleUpdateNodeType('file')}>
+            </Button>
+            <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('file')}>
                 <InsertDriveFileIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
                 Set as File
-            </button>
+            </Button>
         </div>
     );
 };
