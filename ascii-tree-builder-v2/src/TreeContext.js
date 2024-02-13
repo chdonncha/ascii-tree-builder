@@ -1,12 +1,12 @@
-// TreeContext.js
 import React, { createContext, useContext, useState } from 'react';
+import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
 
 const TreeContext = createContext();
 
 export const useTree = () => useContext(TreeContext);
 
 export const TreeProvider = ({ children }) => {
-    const [nodes, setNodes] = useState([{ id: 'root', parentId: null, name: 'Root', type: null }]);
+    const [nodes, setNodes] = useState(SAMPLE_TREE_DATA); // Initialize with SAMPLE_TREE_DATA
     const [selectedNodeId, setSelectedNodeId] = useState(null);
 
     const addNode = (parentId, name) => {
