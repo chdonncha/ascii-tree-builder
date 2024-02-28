@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
+import { v4 as uuidv4 } from 'uuid';
 
 const TreeContext = createContext();
 
@@ -11,7 +12,7 @@ export const TreeProvider = ({ children }) => {
 
     const addNode = (parentId, name) => {
         const newNode = {
-            id: `${new Date().getTime()}`, // Generate Unique ID
+            id: uuidv4(),
             parentId,
             name,
             type: null,
@@ -63,8 +64,6 @@ export const TreeProvider = ({ children }) => {
 
     const unindentNode = (nodeId) => {
         setNodes((prevNodes) => {
-            console.log("Before unindent:", JSON.stringify(prevNodes, null, 2));
-
             const node = prevNodes.find(node => node.id === nodeId);
             const parentNode = prevNodes.find(parent => parent.id === node.parentId);
             if (parentNode) {
@@ -72,8 +71,6 @@ export const TreeProvider = ({ children }) => {
                 const updatedNodes = prevNodes.map(node =>
                     node.id === nodeId ? { ...node, parentId: newParentId } : node
                 );
-
-                console.log("After unindent:", JSON.stringify(updatedNodes, null, 2));
                 return updatedNodes;
             }
             return prevNodes;
