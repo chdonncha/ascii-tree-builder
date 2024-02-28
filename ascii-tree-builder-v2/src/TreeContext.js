@@ -19,6 +19,21 @@ export const TreeProvider = ({ children }) => {
         setNodes((prevNodes) => [...prevNodes, newNode]);
     };
 
+    const deleteNode = (nodeId) => {
+        const getAllDescendants = (nodeId, nodes) => {
+            const directChildren = nodes.filter(node => node.parentId === nodeId);
+            return directChildren.reduce((acc, child) => {
+                return [...acc, child.id, ...getAllDescendants(child.id, nodes)];
+            }, []);
+        };
+
+        const nodeIdsToDelete = getAllDescendants(nodeId, nodes);
+        nodeIdsToDelete.push(nodeId);
+
+        setNodes((prevNodes) => prevNodes.filter(node => !nodeIdsToDelete.includes(node.id)));
+    };
+
+
     const selectNode = (nodeId) => {
         setSelectedNodeId(nodeId);
     };
@@ -48,16 +63,23 @@ export const TreeProvider = ({ children }) => {
 
     const unindentNode = (nodeId) => {
         setNodes((prevNodes) => {
+            console.log("Before unindent:", JSON.stringify(prevNodes, null, 2));
+
             const node = prevNodes.find(node => node.id === nodeId);
             const parentNode = prevNodes.find(parent => parent.id === node.parentId);
-            if (parentNode) { // Ensure there is a parent to unindent
-                // Move node to the same level as its current parent, making its "grandparent" its new parent
+            if (parentNode) {
                 const newParentId = parentNode.parentId;
-                return prevNodes.map(node => node.id === nodeId ? { ...node, parentId: newParentId } : node);
+                const updatedNodes = prevNodes.map(node =>
+                    node.id === nodeId ? { ...node, parentId: newParentId } : node
+                );
+
+                console.log("After unindent:", JSON.stringify(updatedNodes, null, 2));
+                return updatedNodes;
             }
             return prevNodes;
         });
     };
+
 
 // Add indentNode and unindentNode to the value provided by TreeContext.Provider
 
@@ -71,6 +93,7 @@ export const TreeProvider = ({ children }) => {
             updateNodeType, // Add this line to make the function available in the context
             indentNode,
             unindentNode,
+            deleteNode,
         }}>
             {children}
         </TreeContext.Provider>
