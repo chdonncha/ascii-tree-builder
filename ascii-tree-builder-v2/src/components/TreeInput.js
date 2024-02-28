@@ -10,7 +10,8 @@ const TreeInput = () => {
 
     const handleAddNode = () => {
         if (!newNodeName.trim()) return;
-        addNode('root', newNodeName);
+        const rootId = '1'; // Will not be required in future will replace with parent id of selected node
+        addNode(rootId, newNodeName);
         setNewNodeName('');
     };
 
