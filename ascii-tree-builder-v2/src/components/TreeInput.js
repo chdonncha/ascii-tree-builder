@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
-import { useTree } from '../TreeContext';
+import React, {useState} from 'react';
+import {useTree} from '../TreeContext';
 import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import { Button } from '@mui/material';
+import {Button} from '@mui/material';
 
 const TreeInput = () => {
-    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType, deleteNode } = useTree();
+    const {
+        nodes,
+        addNode,
+        selectNode,
+        selectedNodeId,
+        indentNode,
+        unindentNode,
+        updateNodeType,
+        deleteNode,
+        moveNodeUp,
+        moveNodeDown
+    } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
     const handleAddNode = () => {
@@ -88,17 +99,22 @@ const TreeInput = () => {
                 placeholder="Enter new node name"
             />
             <Button variant="contained" className="button-style" onClick={handleAddNode}>Add Node</Button>
-            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
-            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</Button>
-            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
-                <FolderIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                <FolderIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as Folder
             </Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('file')}>
-                <InsertDriveFileIcon style={{ verticalAlign: 'middle', marginRight: '5px' }} />
+                <InsertDriveFileIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as File
             </Button>
+            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>Move Up</Button>
+            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>Move Down</Button>
         </div>
     );
 };

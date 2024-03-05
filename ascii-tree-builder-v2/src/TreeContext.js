@@ -77,9 +77,41 @@ export const TreeProvider = ({ children }) => {
         });
     };
 
+    const moveNodeUp = (nodeId) => {
+        setNodes((prevNodes) => {
+            const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
+            if (nodeIndex > 0) {
+                const node = prevNodes[nodeIndex];
+                const siblings = prevNodes.filter(n => n.parentId === node.parentId);
+                const siblingIndex = siblings.findIndex(n => n.id === nodeId);
+                if (siblingIndex > 0) {
+                    // Swap with the previous sibling
+                    const newNodes = [...prevNodes];
+                    const prevSiblingIndex = prevNodes.findIndex(n => n.id === siblings[siblingIndex - 1].id);
+                    [newNodes[nodeIndex], newNodes[prevSiblingIndex]] = [newNodes[prevSiblingIndex], newNodes[nodeIndex]];
+                    return newNodes;
+                }
+            }
+            return prevNodes;
+        });
+    };
 
-// Add indentNode and unindentNode to the value provided by TreeContext.Provider
-
+    const moveNodeDown = (nodeId) => {
+        setNodes((prevNodes) => {
+            const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
+            const node = prevNodes[nodeIndex];
+            const siblings = prevNodes.filter(n => n.parentId === node.parentId);
+            const siblingIndex = siblings.findIndex(n => n.id === nodeId);
+            if (siblingIndex < siblings.length - 1) {
+                // Swap with the next sibling
+                const newNodes = [...prevNodes];
+                const nextSiblingIndex = prevNodes.findIndex(n => n.id === siblings[siblingIndex + 1].id);
+                [newNodes[nodeIndex], newNodes[nextSiblingIndex]] = [newNodes[nextSiblingIndex], newNodes[nodeIndex]];
+                return newNodes;
+            }
+            return prevNodes;
+        });
+    };
 
     return (
         <TreeContext.Provider value={{
@@ -87,10 +119,12 @@ export const TreeProvider = ({ children }) => {
             addNode,
             selectNode,
             selectedNodeId,
-            updateNodeType, // Add this line to make the function available in the context
+            updateNodeType,
             indentNode,
             unindentNode,
             deleteNode,
+            moveNodeUp,
+            moveNodeDown,
         }}>
             {children}
         </TreeContext.Provider>
