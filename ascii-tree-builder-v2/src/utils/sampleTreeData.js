@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export const SAMPLE_TREE_DATA = [
     { id: '1', parentId: null, name: 'Root', type: 'folder' },
     { id: '2', parentId: '1', name: 'Documents', type: 'folder' },
@@ -16,3 +18,19 @@ export const SAMPLE_TREE_DATA = [
     { id: '15', parentId: '14', name: 'Doom', type: 'file' },
     { id: '16', parentId: '14', name: 'Quake', type: 'file' },
 ];
+
+const generateUUIDsForSampleData = (sampleData) => {
+    const idMapping = sampleData.reduce((acc, current) => {
+        const newId = uuidv4();
+        acc[current.id] = { newId, parentId: current.parentId };
+        return acc;
+    }, {});
+
+    return sampleData.map(node => ({
+        ...node,
+        id: idMapping[node.id].newId,
+        parentId: node.parentId ? idMapping[node.parentId].newId : null,
+    }));
+};
+
+export const convertedSampleData = generateUUIDsForSampleData(SAMPLE_TREE_DATA);

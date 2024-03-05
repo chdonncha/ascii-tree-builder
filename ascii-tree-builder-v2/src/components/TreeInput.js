@@ -5,7 +5,7 @@ import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Button } from '@mui/material';
 
 const TreeInput = () => {
-    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType } = useTree();
+    const { nodes, addNode, selectNode, selectedNodeId, indentNode, unindentNode, updateNodeType, deleteNode } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
     const handleAddNode = () => {
@@ -88,6 +88,7 @@ const TreeInput = () => {
                 placeholder="Enter new node name"
             />
             <Button variant="contained" className="button-style" onClick={handleAddNode}>Add Node</Button>
+            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
             <Button variant="contained" className="button-style" onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</Button>
             <Button variant="contained" className="button-style" onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
