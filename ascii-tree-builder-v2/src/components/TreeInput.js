@@ -28,8 +28,19 @@ const TreeInput = () => {
         return siblings[siblings.length - 1].id === nodeId;
     };
 
-    const renderNode = (node, depth = 0) => {
+    const isDescendantOfSelectedNode = (nodeId, selectedNodeId) => {
+        if (!nodeId || !selectedNodeId) return false;
+        let currentNode = nodes.find(node => node.id === nodeId);
+        while (currentNode) {
+            if (currentNode.id === selectedNodeId) return true;
+            currentNode = nodes.find(node => node.id === currentNode.parentId);
+        }
+        return false;
+    };
+
+    const renderNode = (node, depth = 0, isDescendant = false) => {
         const isSelected = node.id === selectedNodeId;
+        const isChildOfSelected = isDescendantOfSelectedNode(node.id, selectedNodeId);
         const children = nodes.filter(child => child.parentId === node.id);
 
         return (
@@ -49,13 +60,13 @@ const TreeInput = () => {
                     style={{
                         display: 'flex',
                         alignItems: 'center',
-                        background: isSelected ? 'grey' : 'transparent',
+                        background: isSelected ? 'grey' : isChildOfSelected || isDescendant ? 'lightgrey' : 'transparent',
                         paddingLeft: `${depth * 20}px`, // Indentation depth
                     }}
                 >
                     <span>{node.name}</span>
                 </div>
-                {children.map((child) => renderNode(child, depth + 1))}
+                {children.map((child) => renderNode(child, depth + 1, isSelected || isDescendant))}
             </div>
         );
     };
@@ -67,7 +78,7 @@ const TreeInput = () => {
             marginRight: 'auto',
             overflowY: 'auto',
         }}>
-            <div style={{overflowY: 'auto', height: '200px', border: '1px solid black', padding: '5px'}}>
+            <div style={{overflowY: 'auto', height: '400px', border: '1px solid black', padding: '5px'}}>
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
             <input
