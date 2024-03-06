@@ -1,8 +1,10 @@
-import React from 'react';
-import {useTree} from '../TreeContext';
+import React, { useState } from 'react';
+import { useTree } from '../TreeContext';
+import CopyButton from './CopyButton';
 
 const TreeOutput = () => {
-    const {nodes} = useTree(); // Assuming nodes contain your tree structure
+    const { nodes } = useTree();
+    const [copySuccess, setCopySuccess] = useState('');
 
     const buildAsciiTree = (nodeId = null, prefix = '', isLast = true) => {
         // Filter nodes to find children of the current node
@@ -18,12 +20,19 @@ const TreeOutput = () => {
         }).join('');
     };
 
+    const handleCopySuccess = () => {
+        setCopySuccess('Copied!');
+        setTimeout(() => setCopySuccess(''), 2000); // Reset message after 2 seconds
+    };
+
     const asciiTree = buildAsciiTree();
 
     return (
         <>
             <div>
                 <pre>Tree ASCII Representation Here</pre>
+                <CopyButton textToCopy={asciiTree} onCopy={handleCopySuccess}/>
+                {copySuccess && <div>{copySuccess}</div>}
             </div>
 
             <div style={{
