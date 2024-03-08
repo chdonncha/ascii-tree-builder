@@ -15,7 +15,8 @@ const TreeInput = () => {
         updateNodeType,
         deleteNode,
         moveNodeUp,
-        moveNodeDown
+        moveNodeDown,
+        importNodes,
     } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
@@ -82,6 +83,13 @@ const TreeInput = () => {
         );
     };
 
+    const [asciiTreeInput, setAsciiTreeInput] = useState('');
+
+    const handleImportNodes = () => {
+        importNodes(asciiTreeInput);
+        setAsciiTreeInput(''); // Clear input after import
+    };
+
     return (
         <div style={{
             width: '50%',
@@ -113,8 +121,17 @@ const TreeInput = () => {
                 <InsertDriveFileIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as File
             </Button>
-            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>Move Up</Button>
-            <Button variant="contained" className="button-style" onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>Move Down</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>Move Up</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>Move Down</Button>
+            <textarea
+                value={asciiTreeInput}
+                onChange={(e) => setAsciiTreeInput(e.target.value)}
+                placeholder="Paste ASCII tree here"
+                style={{width: '100%', height: '100px'}}
+            />
+            <Button variant="contained" onClick={handleImportNodes}>Import Tree</Button>
         </div>
     );
 };

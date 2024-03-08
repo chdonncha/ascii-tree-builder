@@ -113,6 +113,55 @@ export const TreeProvider = ({ children }) => {
         });
     };
 
+    function parseAsciiTreeToNodes(asciiTree) {
+        const lines = asciiTree.split('\n'); // Split the ASCII tree into lines
+        let nodes = [];
+        let parentStack = [{ id: 'root', depth: -1 }]; // Initialize with a root-level pseudo-parent
+
+        lines.forEach((line, index) => {
+            if (line.trim() === '') return; // Skip empty lines
+
+            // Determine the depth based on indentation ('    ' or '│   ')
+            const depth = (line.match(/(    |│   )/g) || []).length;
+
+            // Correctly extract the node name
+            const nameMatch = line.match(/(├── |└── )(.*)/);
+            if (!nameMatch) return; // Skip if the line format is not as expected
+            const name = nameMatch[2];
+
+            while (parentStack.length - 1 > depth) {
+                parentStack.pop();
+            }
+
+            const parentNode = parentStack[parentStack.length - 1];
+
+            const newNode = {
+                id: uuidv4(),
+                parentId: parentNode.id === 'root' ? null : parentNode.id,
+                name,
+                type: name.includes('.') ? 'file' : 'folder',
+            };
+
+            nodes.push(newNode);
+
+            // Determine if this node will be a parent
+            if (index + 1 < lines.length) {
+                const nextLine = lines[index + 1];
+                const nextDepth = (nextLine.match(/(    |│   )/g) || []).length;
+                if (nextDepth > depth) {
+                    parentStack.push({ id: newNode.id, depth: depth });
+                }
+            }
+        });
+
+        return nodes.filter(node => node.id !== 'root'); // Ensure we don't include the pseudo-parent
+    }
+
+    const importNodes = (asciiTree) => {
+        const parsedNodes = parseAsciiTreeToNodes(asciiTree);
+        setNodes(parsedNodes);
+    };
+
     return (
         <TreeContext.Provider value={{
             nodes,
@@ -125,6 +174,7 @@ export const TreeProvider = ({ children }) => {
             deleteNode,
             moveNodeUp,
             moveNodeDown,
+            importNodes,
         }}>
             {children}
         </TreeContext.Provider>
