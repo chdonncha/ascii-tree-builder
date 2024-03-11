@@ -32,3 +32,6 @@ Renaming is straightforward: select the node and apply the rename function.
 1. **No Orphan Nodes:** Every node must either be a root or have a parent.
 2. **Maintaining Hierarchical Order:** Nodes must maintain a logical hierarchical order, where child nodes cannot precede parent nodes in the structure.
 3. **Consistent Parent-Child Relationship:** Moving, adding, or deleting nodes must not violate the parent-child relationship within the tree.
+
+# Deployment
+Publish to Gitpages via "gh-pages" package using `npm run deploy`
