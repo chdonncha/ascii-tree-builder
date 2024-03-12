@@ -3,6 +3,11 @@ import {useTree} from '../TreeContext';
 import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import {Button} from '@mui/material';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
 
 const TreeInput = () => {
     const {
@@ -20,6 +25,8 @@ const TreeInput = () => {
         clearAllNodes,
     } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
+    const [openAddNode, setOpenAddNode] = useState(false);
+    const [openImportNodes, setOpenImportNodes] = useState(false);
 
     const handleAddNode = () => {
         if (!newNodeName.trim()) return;
@@ -102,13 +109,7 @@ const TreeInput = () => {
             <div style={{overflowY: 'auto', height: '400px', border: '1px solid black', padding: '5px'}}>
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
-            <input
-                type="text"
-                value={newNodeName}
-                onChange={(e) => setNewNodeName(e.target.value)}
-                placeholder="Enter new node name"
-            />
-            <Button variant="contained" className="button-style" onClick={handleAddNode}>Add Node</Button>
+            <Button variant="contained" className="button-style" onClick={() => setOpenAddNode(true)}>Add Node</Button>
             <Button variant="contained" className="button-style"
                     onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
             <Button variant="contained" className="button-style"
@@ -130,13 +131,55 @@ const TreeInput = () => {
             <Button variant="contained" color="error" className="button-style" onClick={clearAllNodes}>
                 Clear
             </Button>
-            <textarea
-                value={asciiTreeInput}
-                onChange={(e) => setAsciiTreeInput(e.target.value)}
-                placeholder="Paste ASCII tree here"
-                style={{width: '100%', height: '100px'}}
-            />
-            <Button variant="contained" onClick={handleImportNodes}>Import Tree</Button>
+            <Dialog open={openAddNode} onClose={() => setOpenAddNode(false)} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Add New Node</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="Node Name"
+                        type="text"
+                        fullWidth
+                        value={newNodeName}
+                        onChange={(e) => setNewNodeName(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenAddNode(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => {handleAddNode(); setOpenAddNode(false);}} color="primary">
+                        Add
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Button variant="contained" color="primary" onClick={() => setOpenImportNodes(true)}>Import Tree</Button>
+            <Dialog open={openImportNodes} onClose={() => setOpenImportNodes(false)} aria-labelledby="form-dialog-title">
+                <DialogTitle id="form-dialog-title">Import Nodes</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id="asciiTree"
+                        label="ASCII Tree"
+                        type="text"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        value={asciiTreeInput}
+                        onChange={(e) => setAsciiTreeInput(e.target.value)}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setOpenImportNodes(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={() => {handleImportNodes(); setOpenImportNodes(false);}} color="primary">
+                        Import
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 };
