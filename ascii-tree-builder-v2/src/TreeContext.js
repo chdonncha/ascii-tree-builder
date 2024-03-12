@@ -162,6 +162,11 @@ export const TreeProvider = ({ children }) => {
         setNodes(parsedNodes);
     };
 
+    const clearAllNodes = () => {
+        setNodes([]); // Clears all nodes
+        setSelectedNodeId(null); // Resets the selected node ID
+    };
+
     return (
         <TreeContext.Provider value={{
             nodes,
@@ -175,6 +180,7 @@ export const TreeProvider = ({ children }) => {
             moveNodeUp,
             moveNodeDown,
             importNodes,
+            clearAllNodes
         }}>
             {children}
         </TreeContext.Provider>

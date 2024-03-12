@@ -17,13 +17,15 @@ const TreeInput = () => {
         moveNodeUp,
         moveNodeDown,
         importNodes,
+        clearAllNodes,
     } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
 
     const handleAddNode = () => {
         if (!newNodeName.trim()) return;
-        const rootId = '1'; // Will not be required in future will replace with parent id of selected node
-        addNode(rootId, newNodeName);
+        // Use selectedNodeId as parentId; if none is selected, or if there are no nodes, use null
+        const parentId = selectedNodeId ? selectedNodeId : null;
+        addNode(parentId, newNodeName);
         setNewNodeName('');
     };
 
@@ -124,6 +126,9 @@ const TreeInput = () => {
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('file')}>
                 <InsertDriveFileIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as File
+            </Button>
+            <Button variant="contained" color="error" className="button-style" onClick={clearAllNodes}>
+                Clear
             </Button>
             <textarea
                 value={asciiTreeInput}
