@@ -110,9 +110,13 @@ const TreeInput = () => {
             <Button variant="contained" className="button-style"
                     onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
             <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && indentNode(selectedNodeId)}>Indent</Button>
+                    onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>↑</Button>
             <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>Unindent</Button>
+                    onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>↓</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && indentNode(selectedNodeId)}>→</Button>
+            <Button variant="contained" className="button-style"
+                    onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>←</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
                 <FolderIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as Folder
@@ -121,10 +125,6 @@ const TreeInput = () => {
                 <InsertDriveFileIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as File
             </Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>Move Up</Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>Move Down</Button>
             <textarea
                 value={asciiTreeInput}
                 onChange={(e) => setAsciiTreeInput(e.target.value)}
