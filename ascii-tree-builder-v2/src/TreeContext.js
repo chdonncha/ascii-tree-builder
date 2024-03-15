@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
 import { v4 as uuidv4 } from 'uuid';
+import HistoryManager from './components/HistoryManager';
 
 const TreeContext = createContext();
 
@@ -9,18 +10,28 @@ export const useTree = () => useContext(TreeContext);
 export const TreeProvider = ({ children }) => {
     const [nodes, setNodes] = useState(SAMPLE_TREE_DATA); // Initialize with SAMPLE_TREE_DATA
     const [selectedNodeId, setSelectedNodeId] = useState(null);
+    const historyManager = useRef(new HistoryManager()).current;
+
+    useEffect(() => {
+        historyManager.pushState(SAMPLE_TREE_DATA);
+    }, []);
 
     const addNode = (parentId, name) => {
+        historyManager.pushState([...nodes]);
+
         const newNode = {
             id: uuidv4(),
             parentId,
             name,
             type: null,
         };
-        setNodes((prevNodes) => [...prevNodes, newNode]);
+        const newState = [...nodes, newNode];
+        setNodes(newState);
     };
 
     const deleteNode = (nodeId) => {
+        historyManager.pushState([...nodes]); // Save current state before change
+
         const getAllDescendants = (nodeId, nodes) => {
             const directChildren = nodes.filter(node => node.parentId === nodeId);
             return directChildren.reduce((acc, child) => {
@@ -31,9 +42,8 @@ export const TreeProvider = ({ children }) => {
         const nodeIdsToDelete = getAllDescendants(nodeId, nodes);
         nodeIdsToDelete.push(nodeId);
 
-        setNodes((prevNodes) => prevNodes.filter(node => !nodeIdsToDelete.includes(node.id)));
+        setNodes(prevNodes => prevNodes.filter(node => !nodeIdsToDelete.includes(node.id)));
     };
-
 
     const selectNode = (nodeId) => {
         setSelectedNodeId(nodeId);
@@ -78,6 +88,7 @@ export const TreeProvider = ({ children }) => {
     };
 
     const moveNodeUp = (nodeId) => {
+        historyManager.pushState([...nodes]);
         setNodes((prevNodes) => {
             const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
             if (nodeIndex > 0) {
@@ -97,6 +108,7 @@ export const TreeProvider = ({ children }) => {
     };
 
     const moveNodeDown = (nodeId) => {
+        historyManager.pushState([...nodes]);
         setNodes((prevNodes) => {
             const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
             const node = prevNodes[nodeIndex];
@@ -158,13 +170,31 @@ export const TreeProvider = ({ children }) => {
     }
 
     const importNodes = (asciiTree) => {
+        historyManager.pushState([...nodes]);
+
         const parsedNodes = parseAsciiTreeToNodes(asciiTree);
         setNodes(parsedNodes);
     };
 
     const clearAllNodes = () => {
-        setNodes([]); // Clears all nodes
-        setSelectedNodeId(null); // Resets the selected node ID
+        historyManager.pushState([...nodes]);
+
+        setNodes([]);
+        setSelectedNodeId(null);
+    };
+
+    const undoAction = () => {
+        const prevState = historyManager.undo();
+        if (prevState !== null) {
+            setNodes(prevState);
+        }
+    };
+
+    const redoAction = () => {
+        const nextState = historyManager.redo();
+        if (nextState !== null) {
+            setNodes(nextState);
+        }
     };
 
     return (
@@ -180,7 +210,9 @@ export const TreeProvider = ({ children }) => {
             moveNodeUp,
             moveNodeDown,
             importNodes,
-            clearAllNodes
+            clearAllNodes,
+            undoAction,
+            redoAction,
         }}>
             {children}
         </TreeContext.Provider>

@@ -23,6 +23,8 @@ const TreeInput = () => {
         moveNodeDown,
         importNodes,
         clearAllNodes,
+        undoAction,
+        redoAction,
     } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
     const [openAddNode, setOpenAddNode] = useState(false);
@@ -154,7 +156,7 @@ const TreeInput = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button variant="contained" color="primary" onClick={() => setOpenImportNodes(true)}>Import Tree</Button>
+            <Button variant="contained" color="primary" className="button-style" onClick={() => setOpenImportNodes(true)}>Import Tree</Button>
             <Dialog open={openImportNodes} onClose={() => setOpenImportNodes(false)} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Import Nodes</DialogTitle>
                 <DialogContent>
@@ -180,6 +182,12 @@ const TreeInput = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Button variant="contained" color="primary" className="button-style" onClick={undoAction}>
+                Undo
+            </Button>
+            <Button variant="contained" color="primary" className="button-style" onClick={redoAction}>
+                Redo
+            </Button>
         </div>
     );
 };
