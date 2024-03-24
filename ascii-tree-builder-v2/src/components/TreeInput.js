@@ -43,14 +43,6 @@ const TreeInput = () => {
         updateNodeType(selectedNodeId, type);
     };
 
-    const isLastChild = (nodeId) => {
-        if (!nodeId) return false;
-        const parentNodeId = nodes.find(node => node.id === nodeId)?.parentId;
-        if (!parentNodeId) return false;
-        const siblings = nodes.filter(node => node.parentId === parentNodeId);
-        return siblings[siblings.length - 1].id === nodeId;
-    };
-
     const isDescendantOfSelectedNode = (nodeId, selectedNodeId) => {
         if (!nodeId || !selectedNodeId) return false;
         let currentNode = nodes.find(node => node.id === nodeId);
