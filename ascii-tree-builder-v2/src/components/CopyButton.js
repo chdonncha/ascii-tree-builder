@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "@mui/material";
 
 const CopyButton = ({ textToCopy, onCopy }) => {
     const handleCopy = async () => {
@@ -11,7 +12,7 @@ const CopyButton = ({ textToCopy, onCopy }) => {
     };
 
     return (
-        <button onClick={handleCopy}>Copy</button>
+        <Button variant="contained" color="primary" className="button-style" onClick={handleCopy}>Copy</Button>
     );
 };
 
