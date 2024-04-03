@@ -26,12 +26,4 @@ export default class HistoryManager {
         }
         return null;
     }
-
-    canUndo() {
-        return this.undoStack.length > 0;
-    }
-
-    canRedo() {
-        return this.redoStack.length > 0;
-    }
 }
