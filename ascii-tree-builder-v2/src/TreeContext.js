@@ -17,8 +17,6 @@ export const TreeProvider = ({ children }) => {
     }, []);
 
     const addNode = (parentId, name) => {
-        historyManager.pushState([...nodes]);
-
         const newNode = {
             id: uuidv4(),
             parentId,
@@ -26,6 +24,7 @@ export const TreeProvider = ({ children }) => {
             type: null,
         };
         const newState = [...nodes, newNode];
+        historyManager.pushState([...nodes]);
         setNodes(newState);
     };
 
