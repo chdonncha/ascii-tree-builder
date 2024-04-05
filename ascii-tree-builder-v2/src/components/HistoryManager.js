@@ -5,14 +5,14 @@ export default class HistoryManager {
     }
 
     pushState(state) {
-        this.undoStack.push(state);
+        this.undoStack.push(JSON.stringify(state));
         this.redoStack = [];
     }
 
     undo() {
         if (this.undoStack.length > 0) {
-            const state = this.undoStack.pop();
-            this.redoStack.push(state);
+            const state = JSON.parse(this.undoStack.pop());
+            this.redoStack.push(JSON.stringify(state));
             return state;
         }
         return null;
@@ -20,8 +20,8 @@ export default class HistoryManager {
 
     redo() {
         if (this.redoStack.length > 0) {
-            const state = this.redoStack.pop();
-            this.undoStack.push(state);
+            const state = JSON.parse(this.redoStack.pop());
+            this.undoStack.push(JSON.stringify(state));
             return state;
         }
         return null;
