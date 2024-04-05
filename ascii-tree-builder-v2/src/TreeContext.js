@@ -183,14 +183,14 @@ export const TreeProvider = ({ children }) => {
     };
 
     const undoAction = () => {
-        const prevState = historyManager.undo();
+        const prevState = historyManager.undo(nodes);
         if (prevState !== null) {
             setNodes(prevState);
         }
     };
 
     const redoAction = () => {
-        const nextState = historyManager.redo();
+        const nextState = historyManager.redo(nodes);
         if (nextState !== null) {
             setNodes(nextState);
         }
