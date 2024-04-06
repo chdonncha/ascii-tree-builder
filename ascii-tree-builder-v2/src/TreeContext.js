@@ -1,7 +1,7 @@
 import React, {createContext, useContext, useEffect, useRef, useState} from 'react';
 import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
 import { v4 as uuidv4 } from 'uuid';
-import HistoryManager from './components/HistoryManager';
+import HistoryManager from './components/HistoryManager/HistoryManager';
 
 const TreeContext = createContext();
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useTree } from '../TreeContext';
-import CopyButton from './CopyButton';
+import { useTree } from '../../TreeContext';
+import CopyButton from '../CopyButton/CopyButton';
 
 const TreeOutput = () => {
     const { nodes } = useTree();

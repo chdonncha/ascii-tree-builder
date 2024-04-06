@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.scss';
 import {TreeProvider} from './TreeContext';
-import TreeInput from './components/TreeInput';
-import TreeOutput from './components/TreeOutput';
+import TreeInput from './components/TreeInput/TreeInput';
+import TreeOutput from './components/TreeOutput/TreeOutput';
 
 function App() {
     return (
