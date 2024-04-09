@@ -8,7 +8,7 @@ const TreeContext = createContext();
 export const useTree = () => useContext(TreeContext);
 
 export const TreeProvider = ({ children }) => {
-    const [nodes, setNodes] = useState(SAMPLE_TREE_DATA); // Initialize with SAMPLE_TREE_DATA
+    const [nodes, setNodes] = useState(SAMPLE_TREE_DATA);
     const [selectedNodeId, setSelectedNodeId] = useState(null);
     const historyManager = useRef(new HistoryManager()).current;
 
@@ -29,7 +29,7 @@ export const TreeProvider = ({ children }) => {
     };
 
     const deleteNode = (nodeId) => {
-        historyManager.pushState([...nodes]); // Save current state before change
+        historyManager.pushState([...nodes]);
 
         const getAllDescendants = (nodeId, nodes) => {
             const directChildren = nodes.filter(node => node.parentId === nodeId);
@@ -42,6 +42,10 @@ export const TreeProvider = ({ children }) => {
         nodeIdsToDelete.push(nodeId);
 
         setNodes(prevNodes => prevNodes.filter(node => !nodeIdsToDelete.includes(node.id)));
+
+        if (nodeId === selectedNodeId) {
+            setSelectedNodeId(null);
+        }
     };
 
     const selectNode = (nodeId) => {

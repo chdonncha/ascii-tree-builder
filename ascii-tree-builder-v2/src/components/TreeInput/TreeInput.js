@@ -34,21 +34,21 @@ const TreeInput = () => {
         const parentNode = nodes.find(node => node.id === nodes.find(node => node.id === nodeId)?.parentId);
         const siblings = parentNode ? nodes.filter(node => node.parentId === parentNode.id) : nodes.filter(node => node.parentId === null);
         const nodeIndex = siblings.findIndex(node => node.id === nodeId);
-        return { nodeIndex, siblings, parentNode };
+        return {nodeIndex, siblings, parentNode};
     };
 
     const canMoveUp = selectedNodeId => {
-        const { nodeIndex } = findNodeIndexAndParent(selectedNodeId);
+        const {nodeIndex} = findNodeIndexAndParent(selectedNodeId);
         return nodeIndex > 0;
     };
 
     const canMoveDown = selectedNodeId => {
-        const { nodeIndex, siblings } = findNodeIndexAndParent(selectedNodeId);
+        const {nodeIndex, siblings} = findNodeIndexAndParent(selectedNodeId);
         return nodeIndex < siblings.length - 1;
     };
 
     const canIndent = selectedNodeId => {
-        const { nodeIndex } = findNodeIndexAndParent(selectedNodeId);
+        const {nodeIndex} = findNodeIndexAndParent(selectedNodeId);
         return nodeIndex > 0;
     };
 
@@ -131,11 +131,22 @@ const TreeInput = () => {
             </div>
             <Button variant="contained" className="button-style" onClick={() => setOpenAddNode(true)}>Add Node</Button>
             <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
-            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canMoveUp(selectedNodeId)} onClick={() => moveNodeUp(selectedNodeId)}>↑</Button>
-            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canMoveDown(selectedNodeId)} onClick={() => moveNodeDown(selectedNodeId)}>↓</Button>
-            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canIndent(selectedNodeId)} onClick={() => indentNode(selectedNodeId)}>→</Button>
-            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canUnindent(selectedNodeId)} onClick={() => unindentNode(selectedNodeId)}>←</Button>
+                    disabled={!selectedNodeId}
+                    onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>
+                Delete Node
+            </Button>
+            <Button variant="contained" className="button-style"
+                    disabled={!selectedNodeId || !canMoveUp(selectedNodeId)}
+                    onClick={() => moveNodeUp(selectedNodeId)}>↑</Button>
+            <Button variant="contained" className="button-style"
+                    disabled={!selectedNodeId || !canMoveDown(selectedNodeId)}
+                    onClick={() => moveNodeDown(selectedNodeId)}>↓</Button>
+            <Button variant="contained" className="button-style"
+                    disabled={!selectedNodeId || !canIndent(selectedNodeId)}
+                    onClick={() => indentNode(selectedNodeId)}>→</Button>
+            <Button variant="contained" className="button-style"
+                    disabled={!selectedNodeId || !canUnindent(selectedNodeId)}
+                    onClick={() => unindentNode(selectedNodeId)}>←</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
                 <FolderIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as Folder
@@ -165,13 +176,18 @@ const TreeInput = () => {
                     <Button onClick={() => setOpenAddNode(false)} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={() => {handleAddNode(); setOpenAddNode(false);}} color="primary">
+                    <Button onClick={() => {
+                        handleAddNode();
+                        setOpenAddNode(false);
+                    }} color="primary">
                         Add
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button variant="contained" color="primary" className="button-style" onClick={() => setOpenImportNodes(true)}>Import Tree</Button>
-            <Dialog open={openImportNodes} onClose={() => setOpenImportNodes(false)} aria-labelledby="form-dialog-title">
+            <Button variant="contained" color="primary" className="button-style"
+                    onClick={() => setOpenImportNodes(true)}>Import Tree</Button>
+            <Dialog open={openImportNodes} onClose={() => setOpenImportNodes(false)}
+                    aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">Import Nodes</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -191,7 +207,10 @@ const TreeInput = () => {
                     <Button onClick={() => setOpenImportNodes(false)} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={() => {handleImportNodes(); setOpenImportNodes(false);}} color="primary">
+                    <Button onClick={() => {
+                        handleImportNodes();
+                        setOpenImportNodes(false);
+                    }} color="primary">
                         Import
                     </Button>
                 </DialogActions>
