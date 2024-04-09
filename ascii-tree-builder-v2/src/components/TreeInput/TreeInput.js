@@ -30,6 +30,32 @@ const TreeInput = () => {
     const [openAddNode, setOpenAddNode] = useState(false);
     const [openImportNodes, setOpenImportNodes] = useState(false);
 
+    const findNodeIndexAndParent = (nodeId) => {
+        const parentNode = nodes.find(node => node.id === nodes.find(node => node.id === nodeId)?.parentId);
+        const siblings = parentNode ? nodes.filter(node => node.parentId === parentNode.id) : nodes.filter(node => node.parentId === null);
+        const nodeIndex = siblings.findIndex(node => node.id === nodeId);
+        return { nodeIndex, siblings, parentNode };
+    };
+
+    const canMoveUp = selectedNodeId => {
+        const { nodeIndex } = findNodeIndexAndParent(selectedNodeId);
+        return nodeIndex > 0;
+    };
+
+    const canMoveDown = selectedNodeId => {
+        const { nodeIndex, siblings } = findNodeIndexAndParent(selectedNodeId);
+        return nodeIndex < siblings.length - 1;
+    };
+
+    const canIndent = selectedNodeId => {
+        const { nodeIndex } = findNodeIndexAndParent(selectedNodeId);
+        return nodeIndex > 0;
+    };
+
+    const canUnindent = selectedNodeId => {
+        return nodes.find(node => node.id === selectedNodeId)?.parentId !== null;
+    };
+
     const handleAddNode = () => {
         if (!newNodeName.trim()) return;
         // Use selectedNodeId as parentId; if none is selected, or if there are no nodes, use null
@@ -106,14 +132,10 @@ const TreeInput = () => {
             <Button variant="contained" className="button-style" onClick={() => setOpenAddNode(true)}>Add Node</Button>
             <Button variant="contained" className="button-style"
                     onClick={() => selectedNodeId && deleteNode(selectedNodeId)}>Delete Node</Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && moveNodeUp(selectedNodeId)}>↑</Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && moveNodeDown(selectedNodeId)}>↓</Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && indentNode(selectedNodeId)}>→</Button>
-            <Button variant="contained" className="button-style"
-                    onClick={() => selectedNodeId && unindentNode(selectedNodeId)}>←</Button>
+            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canMoveUp(selectedNodeId)} onClick={() => moveNodeUp(selectedNodeId)}>↑</Button>
+            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canMoveDown(selectedNodeId)} onClick={() => moveNodeDown(selectedNodeId)}>↓</Button>
+            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canIndent(selectedNodeId)} onClick={() => indentNode(selectedNodeId)}>→</Button>
+            <Button variant="contained" className="button-style" disabled={!selectedNodeId || !canUnindent(selectedNodeId)} onClick={() => unindentNode(selectedNodeId)}>←</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
                 <FolderIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
                 Set as Folder
