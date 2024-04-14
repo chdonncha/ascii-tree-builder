@@ -25,6 +25,8 @@ const TreeInput = () => {
         clearAllNodes,
         undoAction,
         redoAction,
+        canUndo,
+        canRedo,
     } = useTree();
     const [newNodeName, setNewNodeName] = useState('');
     const [openAddNode, setOpenAddNode] = useState(false);
@@ -215,10 +217,10 @@ const TreeInput = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button variant="contained" color="primary" className="button-style" onClick={undoAction}>
+            <Button variant="contained" color="primary" className="button-style" onClick={undoAction} disabled={!canUndo}>
                 Undo
             </Button>
-            <Button variant="contained" color="primary" className="button-style" onClick={redoAction}>
+            <Button variant="contained" color="primary" className="button-style" onClick={redoAction} disabled={!canRedo}>
                 Redo
             </Button>
         </div>

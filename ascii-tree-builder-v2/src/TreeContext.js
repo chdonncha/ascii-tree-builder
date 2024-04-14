@@ -11,12 +11,16 @@ export const TreeProvider = ({ children }) => {
     const [nodes, setNodes] = useState(SAMPLE_TREE_DATA);
     const [selectedNodeId, setSelectedNodeId] = useState(null);
     const historyManager = useRef(new HistoryManager()).current;
+    const [canUndo, setCanUndo] = useState(historyManager.canUndo());
+    const [canRedo, setCanRedo] = useState(historyManager.canRedo());
 
     useEffect(() => {
-        historyManager.pushState(SAMPLE_TREE_DATA);
+        setCanUndo(historyManager.canUndo());
+        setCanRedo(historyManager.canRedo());
     }, []);
 
     const addNode = (parentId, name) => {
+        historyManager.pushState([...nodes]);
         const newNode = {
             id: uuidv4(),
             parentId,
@@ -24,8 +28,8 @@ export const TreeProvider = ({ children }) => {
             type: null,
         };
         const newState = [...nodes, newNode];
-        historyManager.pushState([...nodes]);
         setNodes(newState);
+        updateHistoryStates();
     };
 
     const deleteNode = (nodeId) => {
@@ -46,6 +50,7 @@ export const TreeProvider = ({ children }) => {
         if (nodeId === selectedNodeId) {
             setSelectedNodeId(null);
         }
+        updateHistoryStates();
     };
 
     const selectNode = (nodeId) => {
@@ -59,23 +64,25 @@ export const TreeProvider = ({ children }) => {
     };
 
     const indentNode = (nodeId) => {
+        historyManager.pushState([...nodes]);
         setNodes((prevNodes) => {
             const nodeIndex = prevNodes.findIndex(node => node.id === nodeId);
-            // Ensure the node is not the first node and has a previous sibling within the same parent
             if (nodeIndex > 0) {
                 const node = prevNodes[nodeIndex];
                 const siblings = prevNodes.filter(n => n.parentId === node.parentId);
                 const nodeSiblingIndex = siblings.findIndex(n => n.id === nodeId);
-                if (nodeSiblingIndex > 0) { // Ensure there is a previous sibling to become the parent
+                if (nodeSiblingIndex > 0) {
                     const newParentId = siblings[nodeSiblingIndex - 1].id;
                     return prevNodes.map(node => node.id === nodeId ? { ...node, parentId: newParentId } : node);
                 }
             }
             return prevNodes;
         });
+        updateHistoryStates();
     };
 
     const unindentNode = (nodeId) => {
+        historyManager.pushState([...nodes]);
         setNodes((prevNodes) => {
             const node = prevNodes.find(node => node.id === nodeId);
             const parentNode = prevNodes.find(parent => parent.id === node.parentId);
@@ -88,6 +95,7 @@ export const TreeProvider = ({ children }) => {
             }
             return prevNodes;
         });
+        updateHistoryStates();
     };
 
     const moveNodeUp = (nodeId) => {
@@ -108,6 +116,7 @@ export const TreeProvider = ({ children }) => {
             }
             return prevNodes;
         });
+        updateHistoryStates();
     };
 
     const moveNodeDown = (nodeId) => {
@@ -126,6 +135,7 @@ export const TreeProvider = ({ children }) => {
             }
             return prevNodes;
         });
+        updateHistoryStates();
     };
 
     function parseAsciiTreeToNodes(asciiTree) {
@@ -186,10 +196,16 @@ export const TreeProvider = ({ children }) => {
         setSelectedNodeId(null);
     };
 
+    const updateHistoryStates = () => {
+        setCanUndo(historyManager.canUndo());
+        setCanRedo(historyManager.canRedo());
+    };
+
     const undoAction = () => {
         const prevState = historyManager.undo(nodes);
         if (prevState !== null) {
             setNodes(prevState);
+            updateHistoryStates();
         }
     };
 
@@ -197,6 +213,7 @@ export const TreeProvider = ({ children }) => {
         const nextState = historyManager.redo(nodes);
         if (nextState !== null) {
             setNodes(nextState);
+            updateHistoryStates();
         }
     };
 
@@ -216,6 +233,8 @@ export const TreeProvider = ({ children }) => {
             clearAllNodes,
             undoAction,
             redoAction,
+            canUndo,
+            canRedo,
         }}>
             {children}
         </TreeContext.Provider>
