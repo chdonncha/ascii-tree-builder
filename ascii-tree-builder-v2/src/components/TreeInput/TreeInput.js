@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import './TreeInput.scss';
 
 const TreeInput = () => {
     const {
@@ -88,24 +89,16 @@ const TreeInput = () => {
 
         return (
             <div
+                className="vertically-stack-children"
                 key={node.id}
                 onClick={(e) => {
                     e.stopPropagation();
                     selectNode(node.id);
                 }}
-                style={{
-                    display: 'flex',
-                    flexDirection: 'column', // Vertically stack children
-                    cursor: 'pointer',
-                }}
             >
                 <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        background: isSelected ? 'grey' : isChildOfSelected || isDescendant ? 'lightgrey' : 'transparent',
-                        paddingLeft: `${depth * 20}px`, // Indentation depth
-                    }}
+                    className={`node-item ${isSelected ? 'selected' : isChildOfSelected || isDescendant ? 'child-or-descendant' : 'default'}`}
+                    style={{paddingLeft: `${depth * 20}px`}}
                 >
                     <span>{node.name}</span>
                 </div>
@@ -122,13 +115,8 @@ const TreeInput = () => {
     };
 
     return (
-        <div style={{
-            width: '50%',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            overflowY: 'auto',
-        }}>
-            <div style={{overflowY: 'auto', height: '400px', border: '1px solid black', padding: '5px'}}>
+        <div className="input-box-size">
+            <div className="input-box-styling">
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
             <Button variant="contained" className="button-style" onClick={() => setOpenAddNode(true)}>Add Node</Button>
@@ -150,11 +138,11 @@ const TreeInput = () => {
                     disabled={!selectedNodeId || !canUnindent(selectedNodeId)}
                     onClick={() => unindentNode(selectedNodeId)}>←</Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('folder')}>
-                <FolderIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
+                <FolderIcon className="icon-alignment "/>
                 Set as Folder
             </Button>
             <Button variant="contained" className="button-style" onClick={() => handleUpdateNodeType('file')}>
-                <InsertDriveFileIcon style={{verticalAlign: 'middle', marginRight: '5px'}}/>
+                <InsertDriveFileIcon className="icon-alignment"/>
                 Set as File
             </Button>
             <Button variant="contained" color="error" className="button-style" onClick={clearAllNodes}>
@@ -217,10 +205,12 @@ const TreeInput = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-            <Button variant="contained" color="primary" className="button-style" onClick={undoAction} disabled={!canUndo}>
+            <Button variant="contained" color="primary" className="button-style" onClick={undoAction}
+                    disabled={!canUndo}>
                 Undo
             </Button>
-            <Button variant="contained" color="primary" className="button-style" onClick={redoAction} disabled={!canRedo}>
+            <Button variant="contained" color="primary" className="button-style" onClick={redoAction}
+                    disabled={!canRedo}>
                 Redo
             </Button>
         </div>
