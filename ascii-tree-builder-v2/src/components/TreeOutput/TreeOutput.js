@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTree } from '../../TreeContext';
 import CopyButton from '../CopyButton/CopyButton';
+import './TreeOutput.scss';
 
 const TreeOutput = () => {
     const { nodes } = useTree();
@@ -35,21 +36,8 @@ const TreeOutput = () => {
                 {copySuccess && <div>{copySuccess}</div>}
             </div>
 
-            <div style={{
-                overflowY: 'auto',
-                height: '400px',
-                border: '1px solid black',
-                padding: '5px',
-                textAlign: 'left',
-                width: '50%',
-                marginLeft: 'auto',
-                marginRight: 'auto',
-            }}>
-                <pre style={{
-                    whiteSpace: 'pre-wrap',
-                    wordBreak: 'keep-all',
-                    margin: 0,
-                }}>
+            <div className="output-box-styling">
+                <pre className="node-styling">
                 {asciiTree || 'Tree is empty'}
             </pre>
             </div>
