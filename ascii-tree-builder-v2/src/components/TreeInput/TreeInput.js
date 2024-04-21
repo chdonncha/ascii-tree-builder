@@ -28,11 +28,14 @@ const TreeInput = () => {
     redoAction,
     canUndo,
     canRedo,
+    updateNodeName,
   } = useTree();
   const [newNodeName, setNewNodeName] = useState('');
   const [openAddNode, setOpenAddNode] = useState(false);
   const [openImportNodes, setOpenImportNodes] = useState(false);
   const componentRef = useRef(null);
+  const [openRenameNode, setOpenRenameNode] = useState(false);
+  const [newName, setNewName] = useState('');
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -149,6 +152,14 @@ const TreeInput = () => {
     setAsciiTreeInput(''); // Clear input after import
   };
 
+  const handleRenameNode = () => {
+    if (selectedNodeId && newName.trim()) {
+      updateNodeName(selectedNodeId, newName.trim());
+      setNewName('');
+      setOpenRenameNode(false);
+    }
+  };
+
   return (
     <div ref={componentRef} className="input-box-size">
       <div className="input-box-styling">
@@ -163,6 +174,49 @@ const TreeInput = () => {
       >
         Add Node
       </Button>
+      <Button
+        variant="contained"
+        className="button-style"
+        disabled={!selectedNodeId}
+        onClick={() => {
+          const currentNode = nodes.find((node) => node.id === selectedNodeId);
+          if (currentNode) {
+            setNewName(currentNode.name);
+            setOpenRenameNode(true);
+          }
+        }}
+      >
+        Rename Node
+      </Button>
+
+      <Dialog
+        open={openRenameNode}
+        onClose={() => setOpenRenameNode(false)}
+        aria-labelledby="rename-dialog-title"
+      >
+        <DialogTitle id="rename-dialog-title">Rename Node</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="newNodeName"
+            label="New Node Name"
+            type="text"
+            fullWidth
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenRenameNode(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleRenameNode} color="primary">
+            Rename
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <Button
         variant="contained"
         color="error"

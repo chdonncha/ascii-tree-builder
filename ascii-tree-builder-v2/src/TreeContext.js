@@ -244,6 +244,16 @@ export const TreeProvider = ({ children }) => {
     }
   };
 
+  const updateNodeName = (nodeId, newName) => {
+    historyManager.pushState([...nodes]);
+    setNodes((prevNodes) => {
+      return prevNodes.map((node) =>
+        node.id === nodeId ? { ...node, name: newName } : node
+      );
+    });
+    updateHistoryStates();
+  };
+
   return (
     <TreeContext.Provider
       value={{
@@ -263,6 +273,7 @@ export const TreeProvider = ({ children }) => {
         redoAction,
         canUndo,
         canRedo,
+        updateNodeName,
       }}
     >
       {children}
