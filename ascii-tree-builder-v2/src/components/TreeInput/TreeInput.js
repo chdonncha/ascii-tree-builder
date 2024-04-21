@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {useTree} from '../../TreeContext';
 import FolderIcon from '@mui/icons-material/Folder';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
@@ -32,6 +32,24 @@ const TreeInput = () => {
     const [newNodeName, setNewNodeName] = useState('');
     const [openAddNode, setOpenAddNode] = useState(false);
     const [openImportNodes, setOpenImportNodes] = useState(false);
+    const componentRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (componentRef.current && !componentRef.current.contains(event.target)) {
+                if (selectedNodeId) {
+                    selectNode(null);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [selectedNodeId]);
+
 
     const findNodeIndexAndParent = (nodeId) => {
         const parentNode = nodes.find(node => node.id === nodes.find(node => node.id === nodeId)?.parentId);
@@ -115,7 +133,7 @@ const TreeInput = () => {
     };
 
     return (
-        <div className="input-box-size">
+        <div ref={componentRef} className="input-box-size">
             <div className="input-box-styling">
                 {nodes.filter(node => node.parentId === null).map(node => renderNode(node))}
             </div>
