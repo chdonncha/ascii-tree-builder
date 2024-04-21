@@ -39,14 +39,14 @@ const TreeInput = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        componentRef.current &&
-        !componentRef.current.contains(event.target)
-      ) {
-        if (selectedNodeId) {
-          selectNode(null);
-        }
-      }
+      // if (
+      //   componentRef.current &&
+      //   !componentRef.current.contains(event.target)
+      // ) {
+      //   if (selectedNodeId) {
+      //     selectNode(null);
+      //   }
+      // }
     };
 
     document.addEventListener('mousedown', handleClickOutside);
