@@ -33,7 +33,7 @@ const TreeOutput = () => {
   return (
     <>
       <div>
-        <pre>Tree ASCII Representation Here</pre>
+        <pre className="font-spacing">Tree ASCII Representation:</pre>
         <CopyButton textToCopy={asciiTree} onCopy={handleCopySuccess} />
         {copySuccess && <div>{copySuccess}</div>}
       </div>

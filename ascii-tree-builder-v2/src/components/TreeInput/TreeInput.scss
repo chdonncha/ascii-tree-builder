@@ -7,7 +7,7 @@
 .node-item {
   display: flex;
   align-items: center;
-  cursor: pointer; // Set cursor to pointer
+  cursor: pointer;
 
   &.selected {
     background: grey;
@@ -38,6 +38,7 @@
   height: 400px;
   border: 1px solid black;
   padding: 5px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .icon-alignment {
