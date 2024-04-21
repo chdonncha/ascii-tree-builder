@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
 import { v4 as uuidv4 } from 'uuid';
 import HistoryManager from './components/HistoryManager/HistoryManager';
@@ -45,7 +51,9 @@ export const TreeProvider = ({ children }) => {
     const nodeIdsToDelete = getAllDescendants(nodeId, nodes);
     nodeIdsToDelete.push(nodeId);
 
-    setNodes((prevNodes) => prevNodes.filter((node) => !nodeIdsToDelete.includes(node.id)));
+    setNodes((prevNodes) =>
+      prevNodes.filter((node) => !nodeIdsToDelete.includes(node.id))
+    );
 
     if (nodeId === selectedNodeId) {
       setSelectedNodeId(null);
@@ -58,7 +66,9 @@ export const TreeProvider = ({ children }) => {
   };
 
   const updateNodeType = (nodeId, type) => {
-    setNodes((prevNodes) => prevNodes.map((node) => (node.id === nodeId ? { ...node, type } : node)));
+    setNodes((prevNodes) =>
+      prevNodes.map((node) => (node.id === nodeId ? { ...node, type } : node))
+    );
   };
 
   const indentNode = (nodeId) => {
@@ -71,7 +81,9 @@ export const TreeProvider = ({ children }) => {
         const nodeSiblingIndex = siblings.findIndex((n) => n.id === nodeId);
         if (nodeSiblingIndex > 0) {
           const newParentId = siblings[nodeSiblingIndex - 1].id;
-          return prevNodes.map((node) => (node.id === nodeId ? { ...node, parentId: newParentId } : node));
+          return prevNodes.map((node) =>
+            node.id === nodeId ? { ...node, parentId: newParentId } : node
+          );
         }
       }
       return prevNodes;
@@ -83,10 +95,19 @@ export const TreeProvider = ({ children }) => {
     historyManager.pushState([...nodes]);
     setNodes((prevNodes) => {
       const node = prevNodes.find((node) => node.id === nodeId);
-      const parentNode = prevNodes.find((parent) => parent.id === node.parentId);
+      const parentNode = prevNodes.find(
+        (parent) => parent.id === node.parentId
+      );
       if (parentNode) {
         const newParentId = parentNode.parentId;
-        const updatedNodes = prevNodes.map((node) => (node.id === nodeId ? { ...node, parentId: newParentId } : node));
+        const updatedNodes = prevNodes.map((node) =>
+          node.id === nodeId
+            ? {
+                ...node,
+                parentId: newParentId,
+              }
+            : node
+        );
         return updatedNodes;
       }
       return prevNodes;
@@ -105,8 +126,13 @@ export const TreeProvider = ({ children }) => {
         if (siblingIndex > 0) {
           // Swap with the previous sibling
           const newNodes = [...prevNodes];
-          const prevSiblingIndex = prevNodes.findIndex((n) => n.id === siblings[siblingIndex - 1].id);
-          [newNodes[nodeIndex], newNodes[prevSiblingIndex]] = [newNodes[prevSiblingIndex], newNodes[nodeIndex]];
+          const prevSiblingIndex = prevNodes.findIndex(
+            (n) => n.id === siblings[siblingIndex - 1].id
+          );
+          [newNodes[nodeIndex], newNodes[prevSiblingIndex]] = [
+            newNodes[prevSiblingIndex],
+            newNodes[nodeIndex],
+          ];
           return newNodes;
         }
       }
@@ -125,8 +151,13 @@ export const TreeProvider = ({ children }) => {
       if (siblingIndex < siblings.length - 1) {
         // Swap with the next sibling
         const newNodes = [...prevNodes];
-        const nextSiblingIndex = prevNodes.findIndex((n) => n.id === siblings[siblingIndex + 1].id);
-        [newNodes[nodeIndex], newNodes[nextSiblingIndex]] = [newNodes[nextSiblingIndex], newNodes[nodeIndex]];
+        const nextSiblingIndex = prevNodes.findIndex(
+          (n) => n.id === siblings[siblingIndex + 1].id
+        );
+        [newNodes[nodeIndex], newNodes[nextSiblingIndex]] = [
+          newNodes[nextSiblingIndex],
+          newNodes[nodeIndex],
+        ];
         return newNodes;
       }
       return prevNodes;

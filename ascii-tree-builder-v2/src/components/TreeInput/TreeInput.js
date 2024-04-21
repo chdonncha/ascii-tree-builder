@@ -36,7 +36,10 @@ const TreeInput = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (componentRef.current && !componentRef.current.contains(event.target)) {
+      if (
+        componentRef.current &&
+        !componentRef.current.contains(event.target)
+      ) {
         if (selectedNodeId) {
           selectNode(null);
         }
@@ -51,7 +54,9 @@ const TreeInput = () => {
   }, [selectedNodeId]);
 
   const findNodeIndexAndParent = (nodeId) => {
-    const parentNode = nodes.find((node) => node.id === nodes.find((node) => node.id === nodeId)?.parentId);
+    const parentNode = nodes.find(
+      (node) => node.id === nodes.find((node) => node.id === nodeId)?.parentId
+    );
     const siblings = parentNode
       ? nodes.filter((node) => node.parentId === parentNode.id)
       : nodes.filter((node) => node.parentId === null);
@@ -103,7 +108,10 @@ const TreeInput = () => {
 
   const renderNode = (node, depth = 0, isDescendant = false) => {
     const isSelected = node.id === selectedNodeId;
-    const isChildOfSelected = isDescendantOfSelectedNode(node.id, selectedNodeId);
+    const isChildOfSelected = isDescendantOfSelectedNode(
+      node.id,
+      selectedNodeId
+    );
     const children = nodes.filter((child) => child.parentId === node.id);
 
     return (
@@ -117,13 +125,19 @@ const TreeInput = () => {
       >
         <div
           className={`node-item ${
-            isSelected ? 'selected' : isChildOfSelected || isDescendant ? 'child-or-descendant' : 'default'
+            isSelected
+              ? 'selected'
+              : isChildOfSelected || isDescendant
+              ? 'child-or-descendant'
+              : 'default'
           }`}
           style={{ paddingLeft: `${depth * 20}px` }}
         >
           <span>{node.name}</span>
         </div>
-        {children.map((child) => renderNode(child, depth + 1, isSelected || isDescendant))}
+        {children.map((child) =>
+          renderNode(child, depth + 1, isSelected || isDescendant)
+        )}
       </div>
     );
   };
@@ -138,9 +152,15 @@ const TreeInput = () => {
   return (
     <div ref={componentRef} className="input-box-size">
       <div className="input-box-styling">
-        {nodes.filter((node) => node.parentId === null).map((node) => renderNode(node))}
+        {nodes
+          .filter((node) => node.parentId === null)
+          .map((node) => renderNode(node))}
       </div>
-      <Button variant="contained" className="button-style" onClick={() => setOpenAddNode(true)}>
+      <Button
+        variant="contained"
+        className="button-style"
+        onClick={() => setOpenAddNode(true)}
+      >
         Add Node
       </Button>
       <Button
@@ -192,10 +212,19 @@ const TreeInput = () => {
       {/*    <InsertDriveFileIcon className="icon-alignment"/>*/}
       {/*    Set as File*/}
       {/*</Button>*/}
-      <Button variant="contained" color="error" className="button-style" onClick={clearAllNodes}>
+      <Button
+        variant="contained"
+        color="error"
+        className="button-style"
+        onClick={clearAllNodes}
+      >
         Clear
       </Button>
-      <Dialog open={openAddNode} onClose={() => setOpenAddNode(false)} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={openAddNode}
+        onClose={() => setOpenAddNode(false)}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Add New Node</DialogTitle>
         <DialogContent>
           <TextField
@@ -224,10 +253,19 @@ const TreeInput = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Button variant="contained" color="primary" className="button-style" onClick={() => setOpenImportNodes(true)}>
+      <Button
+        variant="contained"
+        color="primary"
+        className="button-style"
+        onClick={() => setOpenImportNodes(true)}
+      >
         Import Tree
       </Button>
-      <Dialog open={openImportNodes} onClose={() => setOpenImportNodes(false)} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={openImportNodes}
+        onClose={() => setOpenImportNodes(false)}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Import Nodes</DialogTitle>
         <DialogContent>
           <TextField
@@ -258,10 +296,22 @@ const TreeInput = () => {
           </Button>
         </DialogActions>
       </Dialog>
-      <Button variant="contained" color="primary" className="button-style" onClick={undoAction} disabled={!canUndo}>
+      <Button
+        variant="contained"
+        color="primary"
+        className="button-style"
+        onClick={undoAction}
+        disabled={!canUndo}
+      >
         Undo
       </Button>
-      <Button variant="contained" color="primary" className="button-style" onClick={redoAction} disabled={!canRedo}>
+      <Button
+        variant="contained"
+        color="primary"
+        className="button-style"
+        onClick={redoAction}
+        disabled={!canRedo}
+      >
         Redo
       </Button>
     </div>

@@ -12,7 +12,12 @@ const CopyButton = ({ textToCopy, onCopy }) => {
   };
 
   return (
-    <Button variant="contained" color="primary" className="button-style" onClick={handleCopy}>
+    <Button
+      variant="contained"
+      color="primary"
+      className="button-style"
+      onClick={handleCopy}
+    >
       Copy
     </Button>
   );
