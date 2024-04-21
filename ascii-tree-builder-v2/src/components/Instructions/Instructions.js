@@ -1,7 +1,37 @@
 import React from 'react';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import './Instructions.scss';
+
+export const InstructionsAccordion = () => (
+  <div className="instructions-container">
+    <div>
+      <Accordion className="accordion-styling">
+        <AccordionSummary
+          expandIcon={<ArrowDownwardIcon className="accordion-color" />}
+          aria-controls="panel1-content"
+          id="panel1-header"
+        >
+          <Typography>
+            <u>Instructions</u>
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography>
+            {/*<Hotkeys />*/}
+            <GeneralInstructions />
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  </div>
+);
 
 export const GeneralInstructions = () => (
-  <div className="instructions-container">
+  <div>
     <strong>Instructions:</strong>
     <ul>
       <li>
@@ -30,7 +60,7 @@ export const GeneralInstructions = () => (
 );
 
 export const Hotkeys = () => (
-  <div className="instructions-container">
+  <div>
     <strong>Hotkeys:</strong>
     <ul>
       <li>
@@ -47,8 +77,7 @@ export const Hotkeys = () => (
 
 const Instructions = () => (
   <>
-    <GeneralInstructions />
-    <Hotkeys />
+    <InstructionsAccordion />
   </>
 );
 

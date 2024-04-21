@@ -1,0 +1,28 @@
+.accordion-styling {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid black;
+  color: white !important;
+}
+
+.accordion-color {
+  color: white;
+}
+
+.instructions-container {
+  //max-width: 1200px;
+  width: 50%;
+  margin: 1rem auto;
+  text-align: left;
+  //padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    width: 95%;
+  }
+}
+
+.instructions-container li {
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+}
