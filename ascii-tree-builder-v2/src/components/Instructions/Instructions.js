@@ -16,7 +16,9 @@ export const InstructionsAccordion = () => (
           id="panel1-header"
         >
           <Typography>
-            <u>Instructions</u>
+            <u>
+              <b>Instructions</b>
+            </u>
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
@@ -32,30 +34,27 @@ export const InstructionsAccordion = () => (
 
 export const GeneralInstructions = () => (
   <div>
-    <strong>Instructions:</strong>
-    <ul>
-      <li>
-        <strong>Manipulating Structure:</strong> Use the arrow buttons (↑, ↓, ←,
-        →) to adjust the position and indentation of your selected tree item.
-      </li>
-      <li>
-        <strong>Editing:</strong> Click 'Delete' to remove an item and its
-        children, 'Rename' to modify its name, or 'Clear' to reset the entire
-        tree.
-      </li>
-      <li>
-        <strong>Undo/Redo:</strong> Made a mistake? Utilize the 'Undo' and
-        'Redo' buttons to navigate your recent changes.
-      </li>
-      <li>
-        <strong>ASCII Format:</strong> Once satisfied, view and copy your tree
-        in ASCII format for documentation or future reference.
-      </li>
-      <li>
-        <strong>Importing:</strong> To continue working on a structure, paste
-        the copied ASCII text into the Import Tree section.
-      </li>
-    </ul>
+    <div className="instruction-spacing">
+      <strong>Manipulating Structure:</strong> Use the arrow buttons (↑, ↓, ←,
+      →) to adjust the position and indentation of your selected tree item.
+    </div>
+    <div className="instruction-spacing">
+      <strong>Editing:</strong> Click 'Delete' to remove an item and its
+      children, 'Rename' to modify its name, or 'Clear' to reset the entire
+      tree.
+    </div>
+    <div className="instruction-spacing">
+      <strong>Undo/Redo:</strong> Made a mistake? Utilise the 'Undo' and 'Redo'
+      buttons to navigate your recent changes.
+    </div>
+    <div className="instruction-spacing">
+      <strong>ASCII Format:</strong> Once satisfied, view and copy your tree in
+      ASCII format for documentation or future reference.
+    </div>
+    <div className="instruction-spacing">
+      <strong>Importing:</strong> To continue working on a structure, paste the
+      copied ASCII text into the Import Tree section.
+    </div>
   </div>
 );
 
