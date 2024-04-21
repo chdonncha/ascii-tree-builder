@@ -39,9 +39,9 @@ export const GeneralInstructions = () => (
       →) to adjust the position and indentation of your selected tree item.
     </div>
     <div className="instruction-spacing">
-      <strong>Editing:</strong> Click 'Delete' to remove an item and its
-      children, 'Rename' to modify its name, or 'Clear' to reset the entire
-      tree.
+      <strong>Editing:</strong> Click 'Add Node' to add a new item, 'Delete
+      Node' to remove an item and its children, 'Rename Node' to modify its
+      name, or 'Clear' to delete all items in the entire tree.
     </div>
     <div className="instruction-spacing">
       <strong>Undo/Redo:</strong> Made a mistake? Utilise the 'Undo' and 'Redo'
