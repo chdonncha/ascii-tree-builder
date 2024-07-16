@@ -13,7 +13,6 @@ function App() {
         <Instructions />
         <TreeInput />
         <TreeOutput />
-        {/* Implement and include NodeManipulationPanel here */}
       </TreeProvider>
     </div>
   );
