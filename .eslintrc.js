@@ -5,8 +5,8 @@ module.exports = {
   ],
   settings: {
     react: {
-      version: "detect"
-    }
+      version: "detect",
+    },
   },
   env: {
     browser: true,
@@ -33,8 +33,8 @@ module.exports = {
       {
         "allowShortCircuit": true,
         "allowTernary": true,
-        "allowTaggedTemplates": true
-      }
+        "allowTaggedTemplates": true,
+      },
     ],
     "@typescript-eslint/no-unused-vars": ["warn", {
       "ignoreRestSiblings": true,
