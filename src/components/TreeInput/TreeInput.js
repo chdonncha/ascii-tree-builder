@@ -1,13 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useTree } from '../../TreeContext';
-import FolderIcon from '@mui/icons-material/Folder';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import { Button } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import TextField from '@mui/material/TextField';
+import React, { useState, useEffect, useRef } from 'react';
+
+import { useTree } from '../../TreeContext';
 import './TreeInput.scss';
 
 const TreeInput = () => {
@@ -372,4 +371,4 @@ const TreeInput = () => {
   );
 };
 
-export default TreeInput;
+export { TreeInput };

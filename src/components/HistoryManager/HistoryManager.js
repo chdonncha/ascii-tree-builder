@@ -1,4 +1,4 @@
-export default class HistoryManager {
+class HistoryManager {
   constructor() {
     this.undoStack = [];
     this.redoStack = [];
@@ -35,3 +35,5 @@ export default class HistoryManager {
     return this.redoStack.length > 0;
   }
 }
+
+export { HistoryManager };

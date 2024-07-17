@@ -1,9 +1,9 @@
-import React from 'react';
-import AccordionDetails from '@mui/material/AccordionDetails';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import React from 'react';
 import './Instructions.scss';
 
 export const InstructionsAccordion = () => (
@@ -80,4 +80,4 @@ const Instructions = () => (
   </>
 );
 
-export default Instructions;
+export { Instructions };

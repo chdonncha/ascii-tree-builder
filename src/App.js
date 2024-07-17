@@ -1,9 +1,10 @@
 import React from 'react';
+
 import './App.scss';
+import { Instructions } from './components/Instructions/Instructions';
+import { TreeInput } from './components/TreeInput/TreeInput';
+import { TreeOutput } from './components/TreeOutput/TreeOutput';
 import { TreeProvider } from './TreeContext';
-import TreeInput from './components/TreeInput/TreeInput';
-import TreeOutput from './components/TreeOutput/TreeOutput';
-import Instructions from './components/Instructions/Instructions';
 
 function App() {
   return (
@@ -18,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export { App };
