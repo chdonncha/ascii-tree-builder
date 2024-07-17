@@ -37,7 +37,7 @@ const TreeInput = () => {
   const [newName, setNewName] = useState('');
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = () => {
       // if (
       //   componentRef.current &&
       //   !componentRef.current.contains(event.target)
@@ -93,18 +93,22 @@ const TreeInput = () => {
     setNewNodeName('');
   };
 
-  const handleUpdateNodeType = (type) => {
-    if (!selectedNodeId) return;
-    updateNodeType(selectedNodeId, type);
-  };
+  // const handleUpdateNodeType = (type) => {
+  //   if (!selectedNodeId) return;
+  //   updateNodeType(selectedNodeId, type);
+  // };
 
   const isDescendantOfSelectedNode = (nodeId, selectedNodeId) => {
     if (!nodeId || !selectedNodeId) return false;
-    let currentNode = nodes.find((node) => node.id === nodeId);
+
+    const findNodeById = (id) => nodes.find((node) => node.id === id);
+    let currentNode = findNodeById(nodeId);
+
     while (currentNode) {
       if (currentNode.id === selectedNodeId) return true;
-      currentNode = nodes.find((node) => node.id === currentNode.parentId);
+      currentNode = findNodeById(currentNode.parentId);
     }
+
     return false;
   };
 
@@ -130,8 +134,8 @@ const TreeInput = () => {
             isSelected
               ? 'selected'
               : isChildOfSelected || isDescendant
-              ? 'child-or-descendant'
-              : 'default'
+                ? 'child-or-descendant'
+                : 'default'
           }`}
           style={{ paddingLeft: `${depth * 20}px` }}
         >

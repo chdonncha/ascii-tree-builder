@@ -8,7 +8,7 @@ const TreeOutput = () => {
   const { nodes } = useTree();
   const [copySuccess, setCopySuccess] = useState('');
 
-  const buildAsciiTree = (nodeId = null, prefix = '', isLast = true) => {
+  const buildAsciiTree = (nodeId = null, prefix = '') => {
     // Filter nodes to find children of the current node
     const children = nodes.filter((node) => node.parentId === nodeId);
 
@@ -18,7 +18,7 @@ const TreeOutput = () => {
         const nextPrefix = `${prefix}${isLastChild ? '    ' : '│   '}`;
         const spacer = children.length > 1 && !isLastChild ? '' : '';
         const linePrefix = `${prefix}${spacer}${isLastChild ? '└── ' : '├── '}`;
-        const childTree = buildAsciiTree(node.id, nextPrefix, isLastChild);
+        const childTree = buildAsciiTree(node.id, nextPrefix);
         return `${linePrefix}${node.name}\n${childTree}`;
       })
       .join('');

@@ -26,7 +26,7 @@ export const TreeProvider = ({ children }) => {
   useEffect(() => {
     setCanUndo(historyManager.canUndo());
     setCanRedo(historyManager.canRedo());
-  }, []);
+  }, [historyManager]);
 
   const addNode = (parentId, name) => {
     historyManager.pushState([...nodes]);
