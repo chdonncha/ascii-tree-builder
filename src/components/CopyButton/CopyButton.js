@@ -1,5 +1,5 @@
-import React from 'react';
 import { Button } from '@mui/material';
+import React from 'react';
 
 const CopyButton = ({ textToCopy, onCopy }) => {
   const handleCopy = async () => {
@@ -23,4 +23,4 @@ const CopyButton = ({ textToCopy, onCopy }) => {
   );
 };
 
-export default CopyButton;
+export { CopyButton };

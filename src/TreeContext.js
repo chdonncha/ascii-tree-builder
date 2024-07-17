@@ -5,9 +5,12 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
+
+
 import { v4 as uuidv4 } from 'uuid';
-import HistoryManager from './components/HistoryManager/HistoryManager';
+
+import { HistoryManager } from './components/HistoryManager/HistoryManager';
+import { SAMPLE_TREE_DATA } from './utils/sampleTreeData';
 
 const TreeContext = createContext();
 
@@ -174,7 +177,7 @@ export const TreeProvider = ({ children }) => {
       if (line.trim() === '') return; // Skip empty lines
 
       // Determine the depth based on indentation ('    ' or '│   ')
-      const depth = (line.match(/(    |│   )/g) || []).length;
+      const depth = (line.match(/( {4}|│ {3})/g) || []).length;
 
       // Correctly extract the node name
       const nameMatch = line.match(/(├── |└── )(.*)/);
@@ -199,7 +202,7 @@ export const TreeProvider = ({ children }) => {
       // Determine if this node will be a parent
       if (index + 1 < lines.length) {
         const nextLine = lines[index + 1];
-        const nextDepth = (nextLine.match(/(    |│   )/g) || []).length;
+        const nextDepth = (nextLine.match(/( {4}|│ {3})/g) || []).length;
         if (nextDepth > depth) {
           parentStack.push({ id: newNode.id, depth: depth });
         }

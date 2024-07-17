@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+
 import { useTree } from '../../TreeContext';
-import CopyButton from '../CopyButton/CopyButton';
+import { CopyButton } from '../CopyButton/CopyButton';
 import './TreeOutput.scss';
 
 const TreeOutput = () => {
@@ -45,4 +46,4 @@ const TreeOutput = () => {
   );
 };
 
-export default TreeOutput;
+export { TreeOutput };
