@@ -1,4 +1,4 @@
-# ascii-tree-builder-v2
+# ascii-tree-builder
 
 ## Structure Manipulation Rules
 
