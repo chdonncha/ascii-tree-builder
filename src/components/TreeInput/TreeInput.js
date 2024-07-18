@@ -17,7 +17,6 @@ const TreeInput = () => {
     selectedNodeId,
     indentNode,
     unindentNode,
-    updateNodeType,
     deleteNode,
     moveNodeUp,
     moveNodeDown,
