@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ascii-tree-builder-v2/static/css/main.759c3a8e.css",
-    "main.js": "/ascii-tree-builder-v2/static/js/main.a49be9f6.js",
-    "static/js/592.b9734873.chunk.js": "/ascii-tree-builder-v2/static/js/592.b9734873.chunk.js",
-    "index.html": "/ascii-tree-builder-v2/index.html",
-    "main.759c3a8e.css.map": "/ascii-tree-builder-v2/static/css/main.759c3a8e.css.map",
-    "main.a49be9f6.js.map": "/ascii-tree-builder-v2/static/js/main.a49be9f6.js.map",
-    "592.b9734873.chunk.js.map": "/ascii-tree-builder-v2/static/js/592.b9734873.chunk.js.map"
+    "main.css": "/ascii-tree-builder/static/css/main.f9aac65f.css",
+    "main.js": "/ascii-tree-builder/static/js/main.a742c183.js",
+    "static/js/592.b9734873.chunk.js": "/ascii-tree-builder/static/js/592.b9734873.chunk.js",
+    "index.html": "/ascii-tree-builder/index.html",
+    "main.f9aac65f.css.map": "/ascii-tree-builder/static/css/main.f9aac65f.css.map",
+    "main.a742c183.js.map": "/ascii-tree-builder/static/js/main.a742c183.js.map",
+    "592.b9734873.chunk.js.map": "/ascii-tree-builder/static/js/592.b9734873.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.759c3a8e.css",
-    "static/js/main.a49be9f6.js"
+    "static/css/main.f9aac65f.css",
+    "static/js/main.a742c183.js"
   ]
 }
